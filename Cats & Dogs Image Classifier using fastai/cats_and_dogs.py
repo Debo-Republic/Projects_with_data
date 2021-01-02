@@ -1,5 +1,6 @@
 # Program to differentiate using dogs and cats.
 
+## Training a model
 # Import all functions of methods contained in the vision module of FastAI.
 from fastai.vision.all import *
 # Download and decompose the training images of Oxford IIT Pet dataset. 
@@ -17,3 +18,14 @@ learn = cnn_learner(dbunch, resnet34, metrics = error_rate)
 # Fine tune the model 
 learn.finetune(1)
 
+# Testing a model on a random image of dog or cat. 
+
+# Create an uploader to upload test image.
+uploader = widget.FileUpload()
+# Create image out of that test file. 
+img = PILImage.(uploader.data[0])
+# Extract probability whether the test image is cat
+is_cat,_,probs = learn.predict(img)
+# Print the output of prediction
+print(f"Is this a cat ? \t {is_cat}.")
+print(f"The probability that it is a cat is {probs[1].item():.6f}")
