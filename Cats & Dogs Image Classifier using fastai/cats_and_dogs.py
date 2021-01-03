@@ -5,13 +5,15 @@
 from fastai.vision.all import *
 # Download and decompose the training images of Oxford IIT Pet dataset. 
 path = untar_data(URL.PETS/'images')
-# Create a data split of images to be train model and images to test the model 
+# Create a data split of images to be train model and images to test the model
+# is_cat() = function(x) return x[0].isupper() 
 dbunch = ImageDataBunch.from_name_func(
 	path,
 	get_image_files(path),
 	valid_pct=0.2,
 	label_func=lambda x : x[0].isupper(),
 	item_tfms =Resize(224) 
+	#label = is_cat()
 	)
 # Create a model that differentiate cats from dogs
 learn = cnn_learner(dbunch, resnet34, metrics = error_rate)
